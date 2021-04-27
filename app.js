@@ -18,8 +18,10 @@ app.use(express.json());
 
 //reuire all  routes
 const blogsRouter = require("./routes/blogsRouter");
+const careerRouter = require("./routes/careerRouter");
 //use all routes
 app.use("/blogs", blogsRouter);
+app.use("/career", careerRouter);
 
 app.use((req, res, next) => {
   res.status(404).json({

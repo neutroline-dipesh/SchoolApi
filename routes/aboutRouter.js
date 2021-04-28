@@ -3,7 +3,7 @@ const router = express.Router();
 const about = require("../model/about");
 const path = require("path");
 const multer = require("multer");
-
+const auth = require("../middlewares/checkAuth");
 //for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -29,7 +29,7 @@ const filefilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: filefilter });
 
 //add new about
-router.post("/", upload.single("profile_pic"), async (req, res) => {
+router.post("/", auth, upload.single("profile_pic"), async (req, res) => {
   console.log(req.body);
   const newAbout = new about({
     admin: req.body.admin,
@@ -80,7 +80,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 //update about
-router.patch("/:id", upload.single("profile_pic"), async (req, res) => {
+router.patch("/:id", auth, upload.single("profile_pic"), async (req, res) => {
   const id = req.params.id;
   console.log(id);
   const newAbout = {
@@ -104,7 +104,7 @@ router.patch("/:id", upload.single("profile_pic"), async (req, res) => {
   }
 });
 //delete about
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
     const result = await about.findByIdAndDelete({ _id: id });

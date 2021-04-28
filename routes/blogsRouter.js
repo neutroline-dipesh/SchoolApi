@@ -3,7 +3,7 @@ const router = express.Router();
 const blogs = require("../model/blogs");
 const path = require("path");
 const multer = require("multer");
-
+const auth = require("../middlewares/checkAuth");
 //for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -28,7 +28,7 @@ const filefilter = (req, file, cb) => {
 
 const upload = multer({ storage: storage, fileFilter: filefilter });
 //insert new post
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", auth, upload.single("image"), async (req, res) => {
   console.log(req.body);
   const blog = new blogs({
     image: "http://" + req.headers.host + "/" + req.file.path,
@@ -81,7 +81,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 // delete blogs
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
     const result = await blogs.findByIdAndDelete({ _id: id });
@@ -97,7 +97,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 //update blogs
-router.patch("/:id", upload.single("image"), async (req, res) => {
+router.patch("/:id", auth, upload.single("image"), async (req, res) => {
   const id = req.params.id;
   console.log(id);
   const blog = {

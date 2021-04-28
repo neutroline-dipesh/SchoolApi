@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const career = require("../model/career");
-
+const auth = require("../middlewares/checkAuth");
 //add new carrer
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   console.log(req.body);
 
   const newCareer = new career({
@@ -55,7 +55,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 // update carrer
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   const id = req.params.id;
   console.log(req.params.id);
   const updatedCareer = {
@@ -79,7 +79,7 @@ router.patch("/:id", async (req, res) => {
   }
 });
 //delete carrer
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
     const result = await career.findByIdAndDelete({ _id: id });

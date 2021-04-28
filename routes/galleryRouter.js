@@ -3,7 +3,7 @@ const router = express.Router();
 const gallery = require("../model/gallery");
 const path = require("path");
 const multer = require("multer");
-
+const auth = require("../middlewares/checkAuth");
 //for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -32,6 +32,7 @@ const upload = multer({ storage: storage });
 
 router.post(
   "/",
+  auth,
   upload.fields([
     {
       name: "image",
@@ -98,6 +99,7 @@ router.get("/:id", async (req, res) => {
 // update gallery
 router.patch(
   "/:id",
+  auth,
   upload.fields([
     {
       name: "image",
@@ -133,7 +135,7 @@ router.patch(
   }
 );
 //delete gallery
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
     const result = await gallery.findByIdAndDelete({ _id: id });

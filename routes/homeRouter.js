@@ -3,7 +3,7 @@ const router = express.Router();
 const home = require("../model/home");
 const path = require("path");
 const multer = require("multer");
-
+const auth = require("../middlewares/checkAuth");
 //for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -28,7 +28,7 @@ const filefilter = (req, file, cb) => {
 
 const upload = multer({ storage: storage, fileFilter: filefilter });
 //add home
-router.post("/", upload.single("carousel_image"), async (req, res) => {
+router.post("/", auth, upload.single("carousel_image"), async (req, res) => {
   console.log(req.body);
   const newHome = new home({
     announcement: req.body.announcement,
@@ -82,35 +82,40 @@ router.get("/:id", async (req, res) => {
   }
 });
 //update home
-router.patch("/:id", upload.single("carousel_image"), async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  const newHome = {
-    announcement: req.body.announcement,
-    announcement_date: req.body.announcement_date,
-    notice: req.body.notice,
-    event: req.body.event,
-    notice_event_date: req.body.notice_event_date,
-    carousel_image: "http://" + req.headers.host + "/" + req.file.path,
-  };
-  console.log(newHome);
-  try {
-    const result = await home.findByIdAndUpdate(id, newHome);
+router.patch(
+  "/:id",
+  auth,
+  upload.single("carousel_image"),
+  async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const newHome = {
+      announcement: req.body.announcement,
+      announcement_date: req.body.announcement_date,
+      notice: req.body.notice,
+      event: req.body.event,
+      notice_event_date: req.body.notice_event_date,
+      carousel_image: "http://" + req.headers.host + "/" + req.file.path,
+    };
+    console.log(newHome);
+    try {
+      const result = await home.findByIdAndUpdate(id, newHome);
 
-    res.status(200).json({
-      status: "ok",
-      olddata: result,
-      newData: newHome,
-    });
-  } catch (err) {
-    res.json({
-      message: err,
-    });
+      res.status(200).json({
+        status: "ok",
+        olddata: result,
+        newData: newHome,
+      });
+    } catch (err) {
+      res.json({
+        message: err,
+      });
+    }
   }
-});
+);
 
 //delete home
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
     const result = await home.findByIdAndDelete({ _id: id });

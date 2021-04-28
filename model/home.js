@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const HomeSchema = mongoose.Schema({
   announcement: {
-    type: Strng,
+    type: String,
     require: true,
   },
   announcement_date: {

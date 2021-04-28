@@ -19,9 +19,17 @@ app.use(express.json());
 //reuire all  routes
 const blogsRouter = require("./routes/blogsRouter");
 const careerRouter = require("./routes/careerRouter");
+const aboutRouter = require("./routes/aboutRouter");
+const newsEventRouter = require("./routes/newsEventRouter");
+const homeRouter = require("./routes/homeRouter");
+const galleryRouter = require("./routes/galleryRouter");
 //use all routes
 app.use("/blogs", blogsRouter);
 app.use("/career", careerRouter);
+app.use("/about", aboutRouter);
+app.use("/newsEvent", newsEventRouter);
+app.use("/home", homeRouter);
+app.use("/gallery", galleryRouter);
 
 app.use((req, res, next) => {
   res.status(404).json({

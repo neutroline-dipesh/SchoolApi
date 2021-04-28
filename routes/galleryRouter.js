@@ -29,17 +29,7 @@ const storage = multer.diskStorage({
 // };
 
 const upload = multer({ storage: storage });
-// var uploadMultiple = upload.fields([
-//   {
-//     name: "image",
-//     maxCount: 1,
-//   },
-//   {
-//     name: "video",
-//     maxCount: 1,
-//   },
-// ]);
-//add new gallery
+
 router.post(
   "/",
   upload.fields([
@@ -53,12 +43,9 @@ router.post(
     },
   ]),
   async (req, res) => {
-    // console.log(req.body);
-    // console.log(req.file.path);
-    // console.log(req.body.video);
+    0;
 
     const newGallery = new gallery({
-      // image: "http://" + req.headers.host + "/" + req.file.path,
       image: "http://" + req.headers.host + "/" + req.files.image[0].path,
       video: "http://" + req.headers.host + "/" + req.files.video[0].path,
       title: req.body.title,
@@ -79,8 +66,87 @@ router.post(
 );
 
 //get all gallery
+router.get("/", async (req, res) => {
+  try {
+    const result = await gallery.find();
+    res.status(200).json({
+      status: "ok",
+      data: result,
+    });
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
 //get gallery by id
+router.get("/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const data = await gallery.findOne({ _id: req.params.id });
+    res.status(200).json({
+      status: "ok",
+      data: data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      message: err,
+    });
+  }
+});
 // update gallery
+router.patch(
+  "/:id",
+  upload.fields([
+    {
+      name: "image",
+      maxCount: 1,
+    },
+    {
+      name: "video",
+      maxCount: 1,
+    },
+  ]),
+  async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const newGallery = {
+      image: "http://" + req.headers.host + "/" + req.files.image[0].path,
+      video: "http://" + req.headers.host + "/" + req.files.video[0].path,
+      title: req.body.title,
+    };
+    console.log(newGallery);
+    try {
+      const result = await gallery.findByIdAndUpdate(id, newGallery);
+
+      res.status(200).json({
+        status: "ok",
+        olddata: result,
+        newData: newGallery,
+      });
+    } catch (err) {
+      res.json({
+        message: err,
+      });
+    }
+  }
+);
 //delete gallery
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await gallery.findByIdAndDelete({ _id: id });
+    console.log("delete sucessfull ");
+    res.status(200).json({
+      status: "ok",
+      result: result,
+    });
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
 
 module.exports = router;

@@ -32,6 +32,7 @@ const upload = multer({ storage: storage, fileFilter: filefilter });
 router.post("/", auth, upload.single("news_image"), async (req, res) => {
   console.log(req.body);
   const newNewsEvent = new newsEvent({
+    news_title: req.body.news_title,
     recent_news: req.body.recent_news,
     news_date: req.body.news_date,
     news_image: "http://" + req.headers.host + "/" + req.file.path,
@@ -84,6 +85,7 @@ router.patch("/:id", auth, upload.single("news_image"), async (req, res) => {
   const id = req.params.id;
   console.log(id);
   const newNewsEvent = {
+    news_title: req.body.news_title,
     recent_news: req.body.recent_news,
     news_date: req.body.news_date,
     news_image: "http://" + req.headers.host + "/" + req.file.path,

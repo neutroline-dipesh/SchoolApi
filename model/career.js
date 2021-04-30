@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
 
 const CarrerSchema = mongoose.Schema({
+  department: {
+    type: String,
+    require: true,
+  },
+  title: {
+    type: String,
+    require: true,
+  },
   job_id: {
     type: String,
     require: true,

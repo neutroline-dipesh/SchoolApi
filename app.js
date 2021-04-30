@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
-const PORT = 3000;
+const PORT = 4000;
 
 //for path directory
 global.appRoot = __dirname;
@@ -15,6 +16,8 @@ app.use(
 );
 
 app.use(express.json());
+app.use(morgan("dev"));
+app.use(cors());
 
 //reuire all  routes
 const blogsRouter = require("./routes/blogsRouter");

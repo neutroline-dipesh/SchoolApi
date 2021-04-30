@@ -7,6 +7,8 @@ router.post("/", auth, async (req, res) => {
   console.log(req.body);
 
   const newCareer = new career({
+    department: req.body.department,
+    title: req.body.title,
     job_id: req.body.job_id,
     psted_date: req.body.psted_date,
     status: req.body.status,
@@ -59,6 +61,8 @@ router.patch("/:id", auth, async (req, res) => {
   const id = req.params.id;
   console.log(req.params.id);
   const updatedCareer = {
+    department: req.body.department,
+    title: req.body.title,
     job_id: req.body.job_id,
     psted_date: req.body.psted_date,
     status: req.body.status,

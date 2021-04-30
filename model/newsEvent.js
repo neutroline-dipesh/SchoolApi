@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const NewsEventSchema = mongoose.Schema({
+  news_title: {
+    type: String,
+    require: true,
+  },
   recent_news: {
     type: String,
     require: true,

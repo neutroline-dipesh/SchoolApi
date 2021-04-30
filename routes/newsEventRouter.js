@@ -91,7 +91,7 @@ router.patch("/:id", auth, upload.single("news_image"), async (req, res) => {
     news_image: "http://" + req.headers.host + "/" + req.file.path,
   };
 
-  console.log(newAbout);
+  console.log(newNewsEvent);
   try {
     const result = await newsEvent.findByIdAndUpdate(id, newNewsEvent);
 

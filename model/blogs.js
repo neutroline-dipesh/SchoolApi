@@ -17,6 +17,10 @@ const BlogsSchema = mongoose.Schema({
     type: Date,
     require: true,
   },
+  name: {
+    type: String,
+    require: true,
+  },
 });
 
 module.exports = mongoose.model("blogs", BlogsSchema);

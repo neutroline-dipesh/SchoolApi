@@ -31,6 +31,7 @@ const upload = multer({ storage: storage, fileFilter: filefilter });
 router.post("/", auth, upload.single("image"), async (req, res) => {
   console.log(req.body);
   const blog = new blogs({
+    name: req.body.name,
     image: "http://" + req.headers.host + "/" + req.file.path,
     title: req.body.title,
     article: req.body.article,
@@ -101,6 +102,7 @@ router.patch("/:id", auth, upload.single("image"), async (req, res) => {
   const id = req.params.id;
   console.log(id);
   const blog = {
+    name: req.body.name,
     image: "http://" + req.headers.host + "/" + req.file.path,
     title: req.body.title,
     article: req.body.article,

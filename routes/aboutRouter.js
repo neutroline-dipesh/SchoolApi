@@ -41,7 +41,7 @@ router.post("/", auth, upload.single("profile_pic"), async (req, res) => {
     let result = await newAbout.save();
     res.status(200).json({
       status: "ok",
-      newBlog: result,
+      data: result,
     });
   } catch (err) {
     res.json({

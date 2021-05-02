@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const home = require("../model/home");
+const homePageImage = require("../model/homePageImage");
 const path = require("path");
 const multer = require("multer");
 const auth = require("../middlewares/checkAuth");
+
 //for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -27,20 +28,19 @@ const filefilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: storage, fileFilter: filefilter });
-//add home
-router.post("/", auth, upload.single("carousel_image"), async (req, res) => {
+//add homePageImage
+router.post("/", auth, upload.single("src"), async (req, res) => {
   console.log(req.body);
-  const newHome = new home({
-    announcement: req.body.announcement,
-    announcement_date: req.body.announcement_date,
-    notice: req.body.notice,
-    event: req.body.event,
-    notice_event_date: req.body.notice_event_date,
-    carousel_image: "http://" + req.headers.host + "/" + req.file.path,
+  const newHomePageImage = new homePageImage({
+    altText: req.body.altText,
+    key: req.body.key,
+    caption: req.body.caption,
+    header: req.body.header,
+    src: "http://" + req.headers.host + "/" + req.file.path,
   });
 
   try {
-    let result = await newHome.save();
+    let result = await newHomePageImage.save();
     res.status(200).json({
       status: "ok",
       newBlog: result,
@@ -51,10 +51,11 @@ router.post("/", auth, upload.single("carousel_image"), async (req, res) => {
     });
   }
 });
-//get all home
+
+//get all homePageImage
 router.get("/", async (req, res) => {
   try {
-    const result = await home.find();
+    const result = await homePageImage.find();
     res.status(200).json({
       status: "ok",
       data: result,
@@ -65,11 +66,12 @@ router.get("/", async (req, res) => {
     });
   }
 });
-//get home by id
+
+//get homePageImage by id
 router.get("/:id", async (req, res) => {
   console.log(req.params.id);
   try {
-    const data = await home.findOne({ _id: req.params.id });
+    const data = await homePageImage.findOne({ _id: req.params.id });
     res.status(200).json({
       status: "ok",
       data: data,
@@ -81,44 +83,40 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
-//update home
-router.patch(
-  "/:id",
-  auth,
-  upload.single("carousel_image"),
-  async (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    const newHome = {
-      announcement: req.body.announcement,
-      announcement_date: req.body.announcement_date,
-      notice: req.body.notice,
-      event: req.body.event,
-      notice_event_date: req.body.notice_event_date,
-      carousel_image: "http://" + req.headers.host + "/" + req.file.path,
-    };
-    console.log(newHome);
-    try {
-      const result = await home.findByIdAndUpdate(id, newHome);
 
-      res.status(200).json({
-        status: "ok",
-        olddata: result,
-        newData: newHome,
-      });
-    } catch (err) {
-      res.json({
-        message: err,
-      });
-    }
+//updare homePageImage
+router.patch("/:id", auth, upload.single("src"), async (req, res) => {
+  const id = req.params.id;
+  //   console.log(id);
+  const newHomePageImage = {
+    altText: req.body.altText,
+    key: req.body.key,
+    caption: req.body.caption,
+    header: req.body.header,
+    src: "http://" + req.headers.host + "/" + req.file.path,
+  };
+
+  console.log(newHomePageImage);
+  try {
+    const result = await homePageImage.findByIdAndUpdate(id, newHomePageImage);
+
+    res.status(200).json({
+      status: "ok",
+      olddata: result,
+      newData: newHomePageImage,
+    });
+  } catch (err) {
+    res.json({
+      message: err,
+    });
   }
-);
+});
 
-//delete home
+//delete homePageImage
 router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await home.findByIdAndDelete({ _id: id });
+    const result = await homePageImage.findByIdAndDelete({ _id: id });
     console.log("delete sucessfull ");
     res.status(200).json({
       status: "ok",
@@ -130,5 +128,4 @@ router.delete("/:id", auth, async (req, res) => {
     });
   }
 });
-
 module.exports = router;

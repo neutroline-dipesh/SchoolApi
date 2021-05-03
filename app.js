@@ -31,6 +31,7 @@ const userRouter = require("./routes/userRouter");
 const noticeRouter = require("./routes/noticeRouter");
 const eventRouter = require("./routes/eventRouter");
 const homePageImageRouter = require("./routes/homePageImage");
+const contactRouter = require("./routes/contactRouter");
 
 //use all routes
 app.use("/blogs", blogsRouter);
@@ -43,6 +44,7 @@ app.use("/user", userRouter);
 app.use("/notice", noticeRouter);
 app.use("/event", eventRouter);
 app.use("/homePageImage", homePageImageRouter);
+app.use("/contact", contactRouter);
 
 app.use((req, res, next) => {
   res.status(404).json({
@@ -52,12 +54,15 @@ app.use((req, res, next) => {
 
 //Mongo database connection
 mongoose
-  .connect("mongodb://localhost/school_api", {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://dipesh:dipesh@school-rest-api.rt468.mongodb.net/school_api?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("DB Connection Successful"))
   .catch((err) => {
     console.log(err);

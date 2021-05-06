@@ -32,6 +32,7 @@ const noticeRouter = require("./routes/noticeRouter");
 const eventRouter = require("./routes/eventRouter");
 const homePageImageRouter = require("./routes/homePageImage");
 const contactRouter = require("./routes/contactRouter");
+const albumRouter = require("./routes/albumRouter");
 
 //use all routes
 app.use("/blogs", blogsRouter);
@@ -45,6 +46,7 @@ app.use("/notice", noticeRouter);
 app.use("/event", eventRouter);
 app.use("/homePageImage", homePageImageRouter);
 app.use("/contact", contactRouter);
+app.use("/album", albumRouter);
 
 app.use((req, res, next) => {
   res.status(404).json({

@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const GallerySchema = mongoose.Schema({
   image: {
     type: String,
-    require: true,
+    require: false,
   },
   video: {
     type: String,
-    require: true,
+    require: false,
   },
   title: {
     type: String,
-    require: true,
+    require: false,
   },
 });
 

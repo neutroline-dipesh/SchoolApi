@@ -14,57 +14,25 @@ const storage = multer.diskStorage({
   },
 });
 
-// const filefilter = (req, file, cb) => {
-//   if (
-//     file.mimetype == "image/jpeg" ||
-//     file.mimetype == "image/png" ||
-//     file.mimetype == "image/jpg" ||
-//     file.mimetype == "video/mp4" ||
-//     file.mimetype == "video/gif"
-//   ) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
-
 const upload = multer({ storage: storage });
 
-router.post(
-  "/",
-  auth,
-  upload.fields([
-    {
-      name: "image",
-      maxCount: 1,
-    },
-    {
-      name: "video",
-      maxCount: 1,
-    },
-  ]),
-  async (req, res) => {
-    0;
+router.post("/", auth, upload.single("image"), async (req, res) => {
+  const newGallery = new gallery({
+    image: "http://" + req.headers.host + "/" + req.file.path,
+  });
 
-    const newGallery = new gallery({
-      image: "http://" + req.headers.host + "/" + req.files.image[0].path,
-      video: "http://" + req.headers.host + "/" + req.files.video[0].path,
-      title: req.body.title,
+  try {
+    let result = await newGallery.save();
+    res.status(200).json({
+      status: "ok",
+      newBlog: result,
     });
-
-    try {
-      let result = await newGallery.save();
-      res.status(200).json({
-        status: "ok",
-        newBlog: result,
-      });
-    } catch (err) {
-      res.json({
-        message: err,
-      });
-    }
+  } catch (err) {
+    res.json({
+      message: err,
+    });
   }
-);
+});
 
 //get all gallery
 router.get("/", async (req, res) => {
@@ -97,43 +65,27 @@ router.get("/:id", async (req, res) => {
   }
 });
 // update gallery
-router.patch(
-  "/:id",
-  auth,
-  upload.fields([
-    {
-      name: "image",
-      maxCount: 1,
-    },
-    {
-      name: "video",
-      maxCount: 1,
-    },
-  ]),
-  async (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    const newGallery = {
-      image: "http://" + req.headers.host + "/" + req.files.image[0].path,
-      video: "http://" + req.headers.host + "/" + req.files.video[0].path,
-      title: req.body.title,
-    };
-    console.log(newGallery);
-    try {
-      const result = await gallery.findByIdAndUpdate(id, newGallery);
+router.patch("/:id", auth, upload.single("image"), async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const newGallery = {
+    image: "http://" + req.headers.host + "/" + req.file.path,
+  };
+  console.log(newGallery);
+  try {
+    const result = await gallery.findByIdAndUpdate(id, newGallery);
 
-      res.status(200).json({
-        status: "ok",
-        olddata: result,
-        newData: newGallery,
-      });
-    } catch (err) {
-      res.json({
-        message: err,
-      });
-    }
+    res.status(200).json({
+      status: "ok",
+      olddata: result,
+      newData: newGallery,
+    });
+  } catch (err) {
+    res.json({
+      message: err,
+    });
   }
-);
+});
 //delete gallery
 router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;

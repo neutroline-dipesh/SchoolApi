@@ -3,23 +3,23 @@ const mongoose = require("mongoose");
 const HomePageImageSchama = mongoose.Schema({
   src: {
     type: String,
-    required: true,
+    required: false,
   },
   altText: {
     type: String,
-    required: true,
+    required: false,
   },
   key: {
     type: String,
-    required: true,
+    required: false,
   },
   caption: {
     type: String,
-    required: true,
+    required: false,
   },
   header: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

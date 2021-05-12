@@ -30,11 +30,11 @@ const filefilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: filefilter });
 
 //add new album
-router.post("/", auth, upload.single("thum_nail"), async (req, res) => {
+router.post("/", auth, upload.single("thumbnail"), async (req, res) => {
   console.log(req.body);
   const newAlbum = new album({
-    title: req.body.title,
-    thum_nail: "http://" + req.headers.host + "/" + req.file.path,
+    album_name: req.body.album_name,
+    thumbnail: "http://" + req.headers.host + "/" + req.file.path,
   });
 
   try {
@@ -137,12 +137,12 @@ router.delete("/images/:id", async (req, res) => {
 });
 
 //update blogs
-router.patch("/:id", auth, upload.single("thum_nail"), async (req, res) => {
+router.patch("/:id", auth, upload.single("thumbnail"), async (req, res) => {
   const id = req.params.id;
   console.log(id);
   const newAlbum = {
-    title: req.body.title,
-    thum_nail: "http://" + req.headers.host + "/" + req.file.path,
+    album_name: req.body.album_name,
+    thumbnail: "http://" + req.headers.host + "/" + req.file.path,
   };
 
   try {

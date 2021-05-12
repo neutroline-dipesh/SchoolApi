@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const AlbumSchama = mongoose.Schema({
-  title: {
+const AlbumSchema = mongoose.Schema({
+  album_name: {
     type: String,
-    required: true,
+    required: false,
   },
-  thum_nail: {
+  thumbnail: {
     type: String,
-    required: true,
+    required: false,
   },
   images: [
     {
@@ -19,4 +19,4 @@ const AlbumSchama = mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("album", AlbumSchama);
+module.exports = mongoose.model("album", AlbumSchema);

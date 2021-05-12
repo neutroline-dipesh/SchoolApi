@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 //Mongo database connection
 mongoose
   .connect(
-    "mongodb+srv://dipesh:dipesh@school-rest-api.rt468.mongodb.net/school_api?retryWrites=true&w=majority",
+    "mongodb+srv://admin:admin@school-rest-api.rt468.mongodb.net/school_api?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useCreateIndex: true,

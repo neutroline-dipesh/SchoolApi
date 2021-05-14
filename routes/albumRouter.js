@@ -30,7 +30,7 @@ const filefilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: filefilter });
 
 //add new album
-router.post("/", auth, upload.single("thumbnail"), async (req, res) => {
+router.post("/", auth, upload.single('file'), async (req, res) => {
   console.log(req.body);
   const newAlbum = new album({
     album_name: req.body.album_name,

@@ -1,3 +1,4 @@
+const { string } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const CarrerSchema = mongoose.Schema({
@@ -9,16 +10,16 @@ const CarrerSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  job_id: {
-    type: String,
+  vacancy: {
+    type: Number,
     require: true,
   },
-  psted_date: {
+  posted_date: {
     type: Date,
     require: true,
   },
   status: {
-    type: Boolean,
+    type: String,
     require: true,
   },
   description: {

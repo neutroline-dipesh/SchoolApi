@@ -9,6 +9,10 @@ const AlbumSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  link: {
+    type: String,
+    required: false,
+  },
   images: [
     {
       _gallery: {

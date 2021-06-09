@@ -24,6 +24,9 @@ app.use("/public/images", express.static("public/images"));
 const blogsRouter = require("./routes/blogsRouter");
 const careerRouter = require("./routes/careerRouter");
 const aboutRouter = require("./routes/aboutRouter");
+const ourStaffFacultyRouter = require("./routes/ourStaffFacultyRouter");
+const ourStaffAdminRouter = require("./routes/ourStaffAdminRouter");
+
 const newsEventRouter = require("./routes/newsEventRouter");
 const announcementRouter = require("./routes/announcementRouter");
 const galleryRouter = require("./routes/galleryRouter");
@@ -38,6 +41,8 @@ const albumRouter = require("./routes/albumRouter");
 app.use("/blogs", blogsRouter);
 app.use("/career", careerRouter);
 app.use("/about", aboutRouter);
+app.use("/ourStaffFaculty", ourStaffFacultyRouter);
+app.use("/ourStaffAdmin", ourStaffAdminRouter);
 app.use("/newsEvent", newsEventRouter);
 app.use("/announcement", announcementRouter);
 app.use("/gallery", galleryRouter);

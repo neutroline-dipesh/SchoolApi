@@ -9,17 +9,18 @@ router.post("/", auth, async (req, res) => {
   const newCareer = new career({
     department: req.body.department,
     title: req.body.title,
-    job_id: req.body.job_id,
-    psted_date: req.body.psted_date,
+    vacancy: req.body.vacancy,
+    posted_date: req.body.posted_date,
     status: req.body.status,
     description: req.body.description,
+    
   });
-
   try {
-    const result = await newCareer.save();
+    let result = await newCareer.save();
     res.status(200).json({
       status: "ok",
       data: result,
+      
     });
   } catch (err) {
     res.json({
@@ -63,8 +64,8 @@ router.patch("/:id", auth, async (req, res) => {
   const updatedCareer = {
     department: req.body.department,
     title: req.body.title,
-    job_id: req.body.job_id,
-    psted_date: req.body.psted_date,
+    vacancy: req.body.vacancy,
+    posted_date: req.body.posted_date,
     status: req.body.status,
     description: req.body.description,
   };
@@ -76,6 +77,8 @@ router.patch("/:id", auth, async (req, res) => {
       oldData: result,
       newData: updatedCareer,
     });
+    console.log(updatedCareer)
+
   } catch (err) {
     res.json({
       message: err,

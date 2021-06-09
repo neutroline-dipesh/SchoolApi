@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const HomePageImageSchama = mongoose.Schema({
   src: {
     type: String,
-    required: false,
+    required: true,
   },
   altText: {
     type: String,

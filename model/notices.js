@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const NoticeSchema = mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: false,
   },
   notice_date: {
     type: Date,
-    required: true,
+    required: false,
   },
   notice_desc: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

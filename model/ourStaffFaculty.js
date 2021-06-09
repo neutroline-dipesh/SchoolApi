@@ -1,24 +1,15 @@
-const { string } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
-const CarrerSchema = mongoose.Schema({
-  department: {
+const OurStaffFacultySchema = mongoose.Schema({
+  name: {
     type: String,
     require: true,
   },
-  title: {
+  faculties: {
     type: String,
     require: true,
   },
-  vacancy: {
-    type: Number,
-    require: true,
-  },
-  posted_date: {
-    type: Date,
-    require: true,
-  },
-  status: {
+  profile_pic: {
     type: String,
     require: true,
   },
@@ -26,6 +17,14 @@ const CarrerSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  phone: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    require: true,
+  },
 });
 
-module.exports = mongoose.model("carrer", CarrerSchema);
+module.exports = mongoose.model("ourStaffFaculty", OurStaffFacultySchema);

@@ -61,9 +61,10 @@ router.get("/:id", async (req, res) => {
 // delete notice by id
 router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id;
+  console.log(id);
   try {
     const result = await notices.findByIdAndDelete({ _id: id });
-    console.log("delete sucessfull ");
+    console.log("delete sucessfull");
     res.status(200).json({
       status: "ok",
       result: result,
